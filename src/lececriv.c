@@ -1,4 +1,5 @@
 #include <threads.h>
+#include<pthread.h>
 
 pthread_mutex_t mutex_readcount;
 pthread_mutex_t mutex_writecount;
