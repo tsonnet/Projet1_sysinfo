@@ -53,8 +53,10 @@ void* writer(void* id){
             sem_wait(&wsem);
               printf("le writer %d a reçu un signal et lance sa fonction\n",id_int);
               // section critique, un seul writer à la fois
-              processing_CPU();
-              total_writings++;
+              if(total_writings != writings){
+                processing_CPU();
+                total_writings++;
+              }
             sem_post(&wsem);
             printf("le writer %d envoie un signal wsem et est bloqué\n",id_int);
 
@@ -66,8 +68,12 @@ void* writer(void* id){
                       sem_post(&rsem); //autorise les readers
                   }
             pthread_mutex_unlock(&mutex_writecount);
+            printf("le writer %d finit sa boucle\n",id_int);
+                      
 
     }
+    printf("le writer %d sort de sa boucle\n",id_int);
+            
     return (NULL);
 }
 
@@ -77,17 +83,25 @@ void* reader(void* id){
     int id_int = (intptr_t) id;
 
     while(total_readings < readings){
-            pthread_mutex_lock(&mutex); //un seul reader à la fois a acces à sem_wait
+            printf("le reader %d accède à sa fonction et est bloqué !!\n",id_int);
             
+            pthread_mutex_lock(&mutex); //un seul reader à la fois a acces à sem_wait
+            printf("le reader %d est débloqué et attend un signal rsem\n",id_int);
+                  
             sem_wait(&rsem); //n'avoir qu'un seul reader qui lit
+            printf("le reader %d est bloqué et est a reçu son signal rsem\n",id_int);
+                  
             pthread_mutex_lock(&mutex_readcount);
               // section critique
               readcount++;
               if (readcount==1)
               { // arrivée du premier reader
+                printf("le reader %d est solo et attend wsem\n",id_int);
+        
                 sem_wait(&wsem);// je suis entrain de lire, vous ne pouvez plus écrire
               }
               if(writecount == 1){
+                  printf("le reader %d est bloqué envoie un signal rsem\n",id_int);
                   sem_post(&wsem);
               }
             pthread_mutex_unlock(&mutex_readcount);
@@ -95,7 +109,10 @@ void* reader(void* id){
 
             pthread_mutex_unlock(&mutex);
 
-            processing_CPU();
+            if(total_readings != readings){
+                total_readings++;
+                processing_CPU();
+            }
 
             pthread_mutex_lock(&mutex_readcount);
               // section critique
@@ -114,10 +131,16 @@ int main(int argc, char* argv[]){
     clock_t t1,t2;
     t1 = clock();
 
+    
+    if(argc != 5){
+        printf("Not enough arguments");
+        return 0;
+    }
+    
     int nb_readers = atoi(argv[1]);
     int nb_writers = atoi(argv[2]);
-    writings = atoi(argv[3]);
-    readings = atoi(argv[4]);
+    readings = atoi(argv[3]);
+    writings = atoi(argv[4]);
 
     sem_init(&wsem,0,1);
     sem_init(&rsem,0,1);
@@ -166,7 +189,7 @@ int main(int argc, char* argv[]){
     pthread_mutex_destroy(&mutex_writecount);
     pthread_mutex_destroy(&mutex);
 
-    printf("Total items produced = %d and Total items consumed = %d\n", total_readings,total_writings);
+    printf("Total readings = %d and Total writings = %d\n", total_readings,total_writings);
     t2 = clock() - t1;
     time = ((double)t2)/CLOCKS_PER_SEC;
     printf("\nTemps de conversion :%.6f\n",time);
