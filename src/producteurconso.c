@@ -52,25 +52,25 @@ void insert(int index,int item,int id){
 
     buffer[index] = item;
 
-    printf(" Buffer item %d added by Producer %d :  Buffer = [", item, id);
+    //printf(" Buffer item %d added by Producer %d :  Buffer = [", item, id);
     for (int i = 0; i < SIZE - 1; i += 1) {
       
-      printf("%d,", buffer[i]);
+      //printf("%d,", buffer[i]);
     }
-    printf("%d]\n", buffer[7]);
+    //printf("%d]\n", buffer[7]);
 }
 
 void remove_element(int index,int id){
-    printf("le consommateur %d accède à sa fonction\n",id);
+    //printf("le consommateur %d accède à sa fonction\n",id);
     int item_to_remove = buffer[index];
     buffer[index] = 0;
 
-    printf(" Buffer item %d remove by the Consumer %d :  Buffer = [", item_to_remove, id);
+    //printf(" Buffer item %d remove by the Consumer %d :  Buffer = [", item_to_remove, id);
     for (int i = 0; i < SIZE - 1; i += 1) {
       
-      printf("%d,", buffer[i]);
+      //printf("%d,", buffer[i]);
     }
-    printf("%d]\n", buffer[7]);
+    //printf("%d]\n", buffer[7]);
 }
 
 void *producers(void *id){
@@ -78,7 +78,7 @@ void *producers(void *id){
 
     int item = (int) random() % MODULO;
     while (total_production < prod){
-        printf("le producteur attend le signal, il a produit %d unités\n",total_production);
+        //printf("le producteur attend le signal, il a produit %d unités\n",total_production);
         sem_wait(&empty); //attend une place dans le buffer
         pthread_mutex_lock(&mutex_buffer);
             if(total_production != prod){
@@ -88,10 +88,10 @@ void *producers(void *id){
             }
         pthread_mutex_unlock(&mutex_buffer);
         sem_post(&full) ; //incrémente le nombre de place de 1
-        printf("le producteur envoie le signal\n");
+        //printf("le producteur envoie le signal\n");
         processing_CPU();
     }
-    printf("le producteur sort de la boucle\n");  
+    //printf("le producteur sort de la boucle\n");  
 
     return(NULL);   
 }
@@ -101,9 +101,9 @@ void *consumers(void *id){
     int id_int = (intptr_t) id;
 
     while(total_consumption < prod){
-        printf("Le consommateur %d est bloqué !!!!\n",id_int);
+        //printf("Le consommateur %d est bloqué !!!!\n",id_int);
         sem_wait(&full); // attent que le buffer se remplisse
-        printf("Le consommateur %d reçoit le signal\n",id_int);
+        //printf("Le consommateur %d reçoit le signal\n",id_int);
         pthread_mutex_lock(&mutex_buffer);
                 
                 if(total_consumption != prod){
@@ -114,10 +114,10 @@ void *consumers(void *id){
                 
         pthread_mutex_unlock(&mutex_buffer);
         sem_post(&empty); // il y a une place libre en plus
-        printf("le consommateur %d envoie le signal, il a consommé %d unités\n",id_int,total_consumption);
+        //printf("le consommateur %d envoie le signal, il a consommé %d unités\n",id_int,total_consumption);
         processing_CPU();
     }
-    printf("le consommateur %d sort de sa boucle\n",id_int);
+    //printf("le consommateur %d sort de sa boucle\n",id_int);
     
     if(nb_of_consumers > 1){
         sem_post(&full); //si par malheur un consommateur est encore bloqué
@@ -150,14 +150,14 @@ int main(int argc, char* argv[]){
     for (int i = 0; i < nb_of_producers; i++) {
         
         pthread_create(&Producers_threads[i], NULL, producers, (void *) (intptr_t) i);
-        printf("Created Producer Thread = %ld count = %d \n", Producers_threads[i],i);
+        //printf("Created Producer Thread = %ld count = %d \n", Producers_threads[i],i);
     }
 
     // Create n consumers
     for (int i = 0; i < nb_of_consumers; i++) {
         
         pthread_create(&Consumers_threads[i], NULL, consumers, (void *) (intptr_t) i);
-        printf("Created Consumer Thread = %ld count = %d \n", Consumers_threads[i],i);
+        //printf("Created Consumer Thread = %ld count = %d \n", Consumers_threads[i],i);
     }
 
         // join all of the producer threads
@@ -165,7 +165,7 @@ int main(int argc, char* argv[]){
         
         pthread_join(Producers_threads[i], NULL);
         nb_of_producers--;
-        printf("join Producer thread = %d \n", i);
+        //printf("join Producer thread = %d \n", i);
     }
 
     // join all of the consumer threads
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]){
         
         pthread_join(Consumers_threads[i], NULL);
         nb_of_consumers--;
-        printf("join Consumer thread = %d \n", i);
+        //printf("join Consumer thread = %d \n", i);
     }
 
 
@@ -181,10 +181,10 @@ int main(int argc, char* argv[]){
     sem_destroy(&full);
     pthread_mutex_destroy(&mutex_buffer);
 
-    printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
+    //printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
     t2 = clock() - t1;
     time = ((double)t2)/CLOCKS_PER_SEC;
-    printf("\nTemps de conversion :%.6f\n",time);
-    return 1;
+    //printf("\nTemps de conversion :%.6f\n",time);
+    return 0;
 
 }
