@@ -42,7 +42,7 @@ sem_t full; //compte le nomnre de places utilisées,intitialisé à 0
 
 void processing_CPU(void){
     int count = 0;
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 10000; i++)
     {
         count++;
     }    
@@ -57,7 +57,7 @@ void insert(int index,int item,int id){
       
       printf("%d,", buffer[i]);
     }
-    printf("%d]\n", buffer[9]);
+    printf("%d]\n", buffer[7]);
 }
 
 void remove_element(int index,int id){
@@ -70,7 +70,7 @@ void remove_element(int index,int id){
       
       printf("%d,", buffer[i]);
     }
-    printf("%d]\n", buffer[9]);
+    printf("%d]\n", buffer[7]);
 }
 
 void *producers(void *id){
@@ -83,13 +83,13 @@ void *producers(void *id){
         pthread_mutex_lock(&mutex_buffer);
             if(total_production != prod){
                 insert(number_of_element,item,id_int);
-                number_of_element = (number_of_element +1) % SIZE;
+                number_of_element = (number_of_element +1);
                 total_production++;
             }
         pthread_mutex_unlock(&mutex_buffer);
-        processing_CPU();
         sem_post(&full) ; //incrémente le nombre de place de 1
         printf("le producteur envoie le signal\n");
+        processing_CPU();
     }
     printf("le producteur sort de la boucle\n");  
 
@@ -108,26 +108,31 @@ void *consumers(void *id){
                 
                 if(total_consumption != prod){
                     remove_element(number_of_element-1,id_int);
-                    number_of_element = (number_of_element-1) % SIZE;
+                    number_of_element = (number_of_element-1);
                     total_consumption++;
                 }
                 
         pthread_mutex_unlock(&mutex_buffer);
-        processing_CPU();
         sem_post(&empty); // il y a une place libre en plus
         printf("le consommateur %d envoie le signal, il a consommé %d unités\n",id_int,total_consumption);
+        processing_CPU();
     }
     printf("le consommateur %d sort de sa boucle\n",id_int);
+    
     if(nb_of_consumers > 1){
         sem_post(&full); //si par malheur un consommateur est encore bloqué
     }
-
+    
     return(NULL);
+    
 }
 
 
 int main(int argc, char* argv[]){
     //int err = 0;
+    double time; 
+    clock_t t1,t2;
+    t1 = clock();
 
     nb_of_consumers = atoi(argv[1]);
     nb_of_producers = atoi(argv[2]);
@@ -177,7 +182,9 @@ int main(int argc, char* argv[]){
     pthread_mutex_destroy(&mutex_buffer);
 
     printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
-    
+    t2 = clock() - t1;
+    time = ((double)t2)/CLOCKS_PER_SEC;
+    printf("\nTemps de conversion :%.6f\n",time);
     return 1;
 
 }
