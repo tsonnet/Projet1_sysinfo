@@ -1,5 +1,14 @@
-#include <threads.h>
-#include<pthread.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <semaphore.h>
+
 
 pthread_mutex_t mutex_readcount;
 pthread_mutex_t mutex_writecount;
@@ -9,10 +18,12 @@ sem_t wsem;  // accès à la db
 sem_t rsem;
 
 int readcount=0; // nombre de readers
-int writecount=;
+int writecount=0;
 
-sem_init(&wsem, 0, 1);
-sem_init(&rsem,0,1);
+int total_writings = 0;
+int total_readings = 0;
+int readings = 1;
+int writings = 1;
 
 
 void processing_CPU(void){
@@ -96,23 +107,23 @@ void* reader(void* id){
             pthread_mutex_unlock(&mutex_readcount);
             sem_post(&rsem);
 
-   pthread_mutex_unlock(&mutex);
+            pthread_mutex_unlock(&mutex);
 
             if(total_readings != readings){
                 total_readings++;
                 processing_CPU();
             }
 
-   pthread_mutex_lock(&mutex_readcount);
-     // section critique
-     readcount--;
-     if(readcount==0)
-     { // départ du dernier reader
-       sem_post(&wsem);
-     }
-   pthread_mutex_unlock(&mutex_readcount);
-   process_data();
- }
+            pthread_mutex_lock(&mutex_readcount);
+              // section critique
+              readcount--;
+              if(readcount==0)
+              { // départ du dernier reader
+                sem_post(&wsem);
+              }
+            pthread_mutex_unlock(&mutex_readcount);
+    }
+    return (NULL);
 }
 
 int main(int argc, char* argv[]){
@@ -120,10 +131,16 @@ int main(int argc, char* argv[]){
     clock_t t1,t2;
     t1 = clock();
 
+    
+    if(argc != 5){
+        printf("Not enough arguments");
+        return 0;
+    }
+    
     int nb_readers = atoi(argv[1]);
     int nb_writers = atoi(argv[2]);
-    writings = atoi(argv[3]);
-    readings = atoi(argv[4]);
+    readings = atoi(argv[3]);
+    writings = atoi(argv[4]);
 
     sem_init(&wsem,0,1);
     sem_init(&rsem,0,1);
@@ -172,7 +189,7 @@ int main(int argc, char* argv[]){
     pthread_mutex_destroy(&mutex_writecount);
     pthread_mutex_destroy(&mutex);
 
-    printf("Total items produced = %d and Total items consumed = %d\n", total_readings,total_writings);
+    printf("Total readings = %d and Total writings = %d\n", total_readings,total_writings);
     t2 = clock() - t1;
     time = ((double)t2)/CLOCKS_PER_SEC;
     printf("\nTemps de conversion :%.6f\n",time);
