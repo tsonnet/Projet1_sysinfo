@@ -92,6 +92,9 @@ void *producers(void *id){
         processing_CPU();
     }
     //printf("le producteur sort de la boucle\n");  
+    if(nb_of_producers > 1){
+        sem_post(&empty); //si par malheur un consommateur est encore bloqué
+    }
 
     return(NULL);   
 }
@@ -181,10 +184,10 @@ int main(int argc, char* argv[]){
     sem_destroy(&full);
     pthread_mutex_destroy(&mutex_buffer);
 
-    printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
+    //printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
     //t2 = clock() - t1;
     //time = ((double)t2)/CLOCKS_PER_SEC;
-    //printf("\nTemps de conversion :%.6f\n",time);
+    ////printf("\nTemps de conversion :%.6f\n",time);
     return 0;
 
 }

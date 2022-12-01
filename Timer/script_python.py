@@ -42,6 +42,8 @@ def little_plot(path,nb_rep):
     
     return
     
-little_plot('philosophes.csv',5)
+"""little_plot('philosophes.csv',5)"""
 
 """little_plot('lececriv.csv',5)"""
+
+little_plot('Prodcons.csv',5)
