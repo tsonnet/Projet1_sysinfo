@@ -119,9 +119,11 @@ void *consumers(void *id){
     }
     //printf("le consommateur %d sort de sa boucle\n",id_int);
     
+    /*
     if(nb_of_consumers > 1){
         sem_post(&full); //si par malheur un consommateur est encore bloqué
     }
+    */
     
     return(NULL);
     
