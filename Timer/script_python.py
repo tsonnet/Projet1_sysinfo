@@ -13,6 +13,9 @@ def little_plot(path,nb_rep):
     X = data[data.columns.values[0]]
     Y = data[data.columns.values[2]]
 
+    print(X)
+    print(Y)
+
     List_average = []
 
     for i in range(int(len(Y)/nb_rep)):
@@ -35,9 +38,10 @@ def little_plot(path,nb_rep):
     plt.title("Execution Time by number of threads")
     plt.xlabel("Number of threads")
     plt.ylabel("Miliseconds")
-    plt.legend()
     plt.show()
     
     return
-
+    
 little_plot('philosophes.csv',5)
+
+"""little_plot('lececriv.csv',5)"""

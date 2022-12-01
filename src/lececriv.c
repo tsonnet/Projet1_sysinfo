@@ -28,14 +28,14 @@ int writings = 1;
 
 void processing_CPU(void){
     int count = 0;
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 10000; i++)
     {
         count++;
     }    
 }
 
 void* writer(void* id){
-    int id_int = (intptr_t) id;
+    //int id_int = (intptr_t) id;
 
     while(total_writings < writings){
             ////printf("le writer %d accède à sa fonction et est bloqué !!\n",id_int);
@@ -80,7 +80,7 @@ void* writer(void* id){
 
 
 void* reader(void* id){
-    int id_int = (intptr_t) id;
+    //int id_int = (intptr_t) id;
 
     while(total_readings < readings){
             //printf("le reader %d accède à sa fonction et est bloqué !!\n",id_int);
@@ -127,9 +127,9 @@ void* reader(void* id){
 }
 
 int main(int argc, char* argv[]){
-    double time; 
-    clock_t t1,t2;
-    t1 = clock();
+    //double time; 
+    //clock_t t1,t2;
+    //t1 = clock();
 
     
     if(argc != 5){
@@ -190,8 +190,8 @@ int main(int argc, char* argv[]){
     pthread_mutex_destroy(&mutex);
 
     //printf("Total readings = %d and Total writings = %d\n", total_readings,total_writings);
-    t2 = clock() - t1;
-    time = ((double)t2)/CLOCKS_PER_SEC;
+    //t2 = clock() - t1;
+    //time = ((double)t2)/CLOCKS_PER_SEC;
     //printf("\nTemps de conversion :%.6f\n",time);
     return 0;
 }
