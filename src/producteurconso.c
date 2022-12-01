@@ -53,23 +53,23 @@ void insert(int index,int item,int id){
     buffer[index] = item;
 
     //printf(" Buffer item %d added by Producer %d :  Buffer = [", item, id);
-    for (int i = 0; i < SIZE - 1; i += 1) {
+    //for (int i = 0; i < SIZE - 1; i += 1) {
       
       //printf("%d,", buffer[i]);
-    }
+    //}
     //printf("%d]\n", buffer[7]);
 }
 
 void remove_element(int index,int id){
     //printf("le consommateur %d accède à sa fonction\n",id);
-    int item_to_remove = buffer[index];
+    //int item_to_remove = buffer[index];
     buffer[index] = 0;
 
     //printf(" Buffer item %d remove by the Consumer %d :  Buffer = [", item_to_remove, id);
-    for (int i = 0; i < SIZE - 1; i += 1) {
+    //for (int i = 0; i < SIZE - 1; i += 1) {
       
       //printf("%d,", buffer[i]);
-    }
+    //}
     //printf("%d]\n", buffer[7]);
 }
 
@@ -119,11 +119,9 @@ void *consumers(void *id){
     }
     //printf("le consommateur %d sort de sa boucle\n",id_int);
     
-    /*
     if(nb_of_consumers > 1){
         sem_post(&full); //si par malheur un consommateur est encore bloqué
     }
-    */
     
     return(NULL);
     
@@ -132,9 +130,9 @@ void *consumers(void *id){
 
 int main(int argc, char* argv[]){
     //int err = 0;
-    double time; 
-    clock_t t1,t2;
-    t1 = clock();
+    //double time; 
+    //clock_t t1,t2;
+    //t1 = clock();
 
     nb_of_consumers = atoi(argv[1]);
     nb_of_producers = atoi(argv[2]);
@@ -183,9 +181,9 @@ int main(int argc, char* argv[]){
     sem_destroy(&full);
     pthread_mutex_destroy(&mutex_buffer);
 
-    //printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
-    t2 = clock() - t1;
-    time = ((double)t2)/CLOCKS_PER_SEC;
+    printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
+    //t2 = clock() - t1;
+    //time = ((double)t2)/CLOCKS_PER_SEC;
     //printf("\nTemps de conversion :%.6f\n",time);
     return 0;
 

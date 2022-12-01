@@ -1,30 +1,43 @@
+from datetime import date
+from tarfile import LENGTH_LINK
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import datetime
 
-List = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-print(List[::5])
 
-""" def little_plot(path,title,fx1,fx2):
+def little_plot(path,nb_rep):
 
     data = pd.read_csv(path)
 
     X = data[data.columns.values[0]]
-    Y = data[data.columns.values[1]]
+    Y = data[data.columns.values[2]]
 
-    moyennes = X[::5]/5
+    List_average = []
 
+    for i in range(int(len(Y)/nb_rep)):
+        sum = 0
+        for j in range(nb_rep):
+            datetime_str = Y[i*5 + j]
+            datetime_object = datetime.strptime(datetime_str, "%M:%S.%f")
+            total_milisecond = int(datetime_object.microsecond/1000)
+            sum += total_milisecond
+        List_average.append(sum/nb_rep)
+
+
+    average = np.average(List_average)
+    standard_deviation = np.std(List_average)
     
-    data = list(data['Windspeed'])
-    x = np.linspace(min(data), max(data))
+    x = X[::nb_rep]
     
-    plt.plot(x, fx1, '-g', label = "InvGauss")
-    plt.plot(x, fx2, '-r', label = "Gamma")
+    plt.plot(x, List_average, '-b')
     
-    plt.hist(data, bins=30, range=(0,130), density = 1)
-    plt.title(title +" winspeed histogram")
-    plt.xlabel("Windspeed [km/h]")
+    plt.title("Execution Time by number of threads")
+    plt.xlabel("Number of threads")
+    plt.ylabel("Miliseconds")
     plt.legend()
     plt.show()
     
-    return """
+    return
+
+little_plot('philosophes.csv',5)
