@@ -77,7 +77,7 @@ void *producers(void *id){
     int id_int = (intptr_t) id;
 
     int item = (int) random() % MODULO;
-    while (total_production < prod){
+    while (total_production < prod){  
         printf("le producteur attend le signal, il a produit %d unités\n",total_production);
         sem_wait(&empty); //attend une place dans le buffer
         pthread_mutex_lock(&mutex_buffer);
@@ -95,7 +95,6 @@ void *producers(void *id){
     if(nb_of_producers > 1){
         sem_post(&empty); //si par malheur un consommateur est encore bloqué
     }
-
     return(NULL);   
 }
 
@@ -132,10 +131,10 @@ void *consumers(void *id){
 
 
 int main(int argc, char* argv[]){
-    //int err = 0;
-    //double time; 
-    //clock_t t1,t2;
-    //t1 = clock();
+    int err = 0;
+    double time; 
+    clock_t t1,t2;
+    t1 = clock();
 
     nb_of_consumers = atoi(argv[1]);
     nb_of_producers = atoi(argv[2]);
@@ -151,7 +150,6 @@ int main(int argc, char* argv[]){
 
         // Create n producers
     for (int i = 0; i < nb_of_producers; i++) {
-        
         pthread_create(&Producers_threads[i], NULL, producers, (void *) (intptr_t) i);
         printf("Created Producer Thread = %ld count = %d \n", Producers_threads[i],i);
     }
@@ -185,9 +183,9 @@ int main(int argc, char* argv[]){
     pthread_mutex_destroy(&mutex_buffer);
 
     printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
-    //t2 = clock() - t1;
-    //time = ((double)t2)/CLOCKS_PER_SEC;
-    //printf("\nTemps de conversion :%.6f\n",time);
+    t2 = clock() - t1;
+    time = ((double)t2)/CLOCKS_PER_SEC;
+    printf("\nTemps de conversion :%.6f\n",time);
     return 0;
 
 }

@@ -33,14 +33,22 @@ int leave(int* x){
     );
 }
 
+void SemOurWait(int *x, int *size_of_sem){
+    while(enter(x)){
+        size_of_sem--;
+    }
+    while(leave(x)){
+        size_of_sem++;
+    }
+}
+
 
 void TestAndTestAndSet(){
 
     while (enter(&lock))
     {
         while (lock){}  
-    }
-    
+    }   
 }
 
 void* Action(void* N){
