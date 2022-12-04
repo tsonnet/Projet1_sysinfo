@@ -12,8 +12,8 @@ def Extract_data(path,nb_rep):
     X = data[data.columns.values[0]]
     Y = data[data.columns.values[2]]
 
-    print(X)
-    print(Y)
+    #print(X)
+    #print(Y)
 
     List_average = []
 
@@ -29,6 +29,31 @@ def Extract_data(path,nb_rep):
 
     average = np.average(List_average)
     standard_deviation = np.std(List_average)
+    
+    x = X[::nb_rep]
+    
+    return x,List_average
+
+def Extract_data_boxplot(path,nb_rep):
+
+    data = pd.read_csv(path)
+
+    X = data[data.columns.values[0]]
+    Y = data[data.columns.values[2]]
+
+    #print(X)
+    #print(Y)
+
+    List_average = []
+
+    for i in range(int(len(Y)/nb_rep)):
+        sum = []
+        for j in range(nb_rep):
+            datetime_str = Y[i*5 + j]
+            datetime_object = datetime.strptime(datetime_str, "%M:%S.%f")
+            total_milisecond = int(datetime_object.microsecond/1000)
+            sum.append(total_milisecond)
+        List_average.append(sum)
     
     x = X[::nb_rep]
     

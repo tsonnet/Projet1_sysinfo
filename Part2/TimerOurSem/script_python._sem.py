@@ -18,17 +18,17 @@ fig, axes = plt.subplots(3, 1)
 ax1, ax2,ax3 = axes
 
 ax1.plot(X1,Y1,'-b')
-ax1.xlabel('Number of threads')
-ax1.ylabel('Time in milliseconds')
+ax1.set_xlabel('Number of threads')
+ax1.set_ylabel('Time in milliseconds')
 ax1.title('PhilisophesOurSem')
 
 ax2.plot(X2,Y2,'-g')
-ax2.xlabel('Number of threads')
-ax2.ylabel('Time in milliseconds')
+ax2.set_xlabel('Number of threads')
+ax2.set_ylabel('Time in milliseconds')
 ax2.title('LececrivOurSem')
 
 ax3.plot(X3,Y3,'-r')
-ax1.xlabel('Number of threads')
+ax1.set_set_xlabel('Number of threads')
 ax1.ylabel('Time in milliseconds')
 ax1.title('PhilisophesOurSem')
 

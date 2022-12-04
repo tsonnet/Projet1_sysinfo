@@ -22,20 +22,20 @@ ax1, ax2,ax3 = axes
 
 ax1.plot(X1,Y1,'-b')
 ax1.plot(X1bis,Y1bis,'-r')
-ax1.xlabel('Number of threads')
-ax1.ylabel('Time in milliseconds')
+ax1.set_xlabel('Number of threads')
+ax1.set_ylabel('Time in milliseconds')
 ax1.title('PhilisophesOurSem vs Philosophes')
 
 ax2.plot(X2,Y2,'-b')
 ax2.plot(X2bis,Y2bis,'-r')
-ax2.xlabel('Number of threads')
-ax2.ylabel('Time in milliseconds')
+ax2.set_xlabel('Number of threads')
+ax2.set_ylabel('Time in milliseconds')
 ax2.title('LececrivOurSem vs Lececriv')
 
 ax3.plot(X3,Y3,'-b')
 ax3.plot(X3bis,Y3bis,'-r')
-ax1.xlabel('Number of threads')
-ax1.ylabel('Time in milliseconds')
+ax1.set_xlabel('Number of threads')
+ax1.set_ylabel('Time in milliseconds')
 ax1.title('ProdconsOurSem vs Prodcons')
 
 fig.tight_layout()
