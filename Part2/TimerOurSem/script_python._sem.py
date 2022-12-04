@@ -5,14 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-from Projet1_sysinfo.Timer.Extract_data import Extract_data
+from Projet1_sysinfo.Part1.Timer.Extract_data import Extract_data
 
     
 X1, Y1 = Extract_data('PhilosophesOurSem.csv',5)
 
 X2,Y2 = Extract_data('LececrivOurSem.csv',5)
 
-X3,Y3 = Extract_data('Prodcons.csv',5)
+X3,Y3 = Extract_data('ProdconsOurSem.csv',5)
 
 fig, axes = plt.subplots(3, 1)
 ax1, ax2,ax3 = axes
