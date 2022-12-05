@@ -8,13 +8,13 @@ import sys
 
 from Extract_data import Extract_data,Extract_data_boxplot
 
-X1, Y1 = Extract_data('Part1/Timer/philosophes.csv',5)
+def plot_continue(path1, path2, path3,case):
 
-X2,Y2 = Extract_data('Part1/Timer/lececriv.csv',5)
+    X1, Y1 = Extract_data(path1,5)
 
-X3,Y3 = Extract_data('Part1/Timer/prodcons.csv',5)
+    X2,Y2 = Extract_data(path2,5)
 
-def plot_continue():  
+    X3,Y3 = Extract_data(path3,5)
 
     fig = plt.figure(figsize = (5, 10))
     ax1 = fig.add_subplot(3,1,1)
@@ -35,34 +35,54 @@ def plot_continue():
     ax3.set_xlabel('Number of threads')
     ax3.set_ylabel('Time in milliseconds')
     ax3.set_title('Prodcons')
-
     fig.tight_layout()
-    plt.savefig('graph.png')
+
+    if(case == 'ordi'):
+        plt.savefig('graph_.png')
+    else:
+        plt.savefig('graph_inginious.png')
+
     plt.show(block = False)
 
 
-def individual_plot_continue():
+def individual_plot_continue(path1, path2, path3,case):
+
+    X1, Y1 = Extract_data(path1,5)
+
+    X2,Y2 = Extract_data(path2,5)
+
+    X3,Y3 = Extract_data(path3,5)
 
     plt.figure()
     plt.plot(X1,Y1,'-b')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Philisophes')
-    plt.savefig("philosophes.png")
-
+    if (case == 'ordi'):
+        plt.savefig("philosophes.png")
+    else:
+        plt.savefig("philosophes_inginious.png")
+        
     plt.figure()
     plt.plot(X2,Y2,'-g')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Lececriv')
-    plt.savefig("lececriv.png")
+    if case == 'ordi':
+        plt.savefig("lececriv.png")
+    
+    else :
+        plt.savefig("lececriv_inginious.png")
 
     plt.figure()
     plt.plot(X3,Y3,'-r')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Prodcons')
-    plt.savefig("prodcons.png")
+    if (case == 'ordi'):
+        plt.savefig("prodcons.png")
+    else :
+    	plt.savefig("prodcons_inginious.png")
 
 X1_plot, Y1_plot = Extract_data_boxplot('Part1/Timer/philosophes.csv',5)
 
@@ -70,7 +90,13 @@ X2_plot,Y2_plot = Extract_data_boxplot('Part1/Timer/lececriv.csv',5)
 
 X3_plot,Y3_plot = Extract_data_boxplot('Part1/Timer/prodcons.csv',5)
 
-def plot_boxplot():
+def plot_boxplot(path1, path2, path3,case):
+
+    X1_plot, Y1_plot = Extract_data_boxplot(path1,5)
+
+    X2_plot,Y2_plot = Extract_data_boxplot(path2,5)
+
+    X3_plot,Y3_plot = Extract_data_boxplot(path3,5)
 
     fig = plt.figure(figsize = (5, 10))
     ax1 = fig.add_subplot(3,1,1)
@@ -96,10 +122,19 @@ def plot_boxplot():
     ax3.set_title('Prodcons')
 
     fig.tight_layout()
-    plt.savefig('graph_boxplot.png')
+    if (case == 'ordi'):
+        plt.savefig('graph_boxplot.png')
+    else :
+        plt.savefig('graph_boxplot_inginious.png')
     plt.show(block = False)
 
-def individual_plot_boxplot():
+def individual_plot_boxplot(path1, path2, path3,case):
+
+    X1_plot, Y1_plot = Extract_data_boxplot(path1,5)
+
+    X2_plot,Y2_plot = Extract_data_boxplot(path2,5)
+
+    X3_plot,Y3_plot = Extract_data_boxplot(path3,5)
 
     plt.figure()
     plt.boxplot(Y1_plot)
@@ -107,7 +142,10 @@ def individual_plot_boxplot():
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Philosophes')
-    plt.savefig("philosophes_boxplot.png")
+    if (case == 'ordi'):
+        plt.savefig("philosophes_boxplot.png")
+    else :
+        plt.savefig("philosophes_boxplot_inginious.png")
 
     plt.figure()
     plt.boxplot(Y2_plot)
@@ -115,7 +153,10 @@ def individual_plot_boxplot():
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Lececriv')
-    plt.savefig("lececriv_boxplot.png")
+    if (case == 'ordi'):
+        plt.savefig("lececriv_boxplot.png") 
+    else :
+        plt.savefig("lececriv_boxplot_inginious.png")
 
     plt.figure()
     plt.boxplot(Y3_plot)
@@ -123,13 +164,16 @@ def individual_plot_boxplot():
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
     plt.title('Prodcons')
-    plt.savefig("prodcons_boxplot.png")
-
+    if (case == 'ordi'):
+        plt.savefig("prodcons_boxplot.png")
+    else :
+    	plt.savefig("prodcons_boxplot_inginious.png")
+    	
 if len( sys.argv ) <= 2:
     print('Besoin de 2 paramètres')
     exit()
 
-if len(sys.argv) > 3:
+if len(sys.argv) > 7:
     print("Trop d'arguments")
     exit()
 try:
@@ -138,12 +182,12 @@ except ValueError:
         print( "Bad parameter value: %s" % sys.argv, file=sys.stderr )  
 
 if(str(sys.argv[1]) == "continue" and str(sys.argv[2]) == 'subplot'):
-    plot_continue()
+    plot_continue(sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
 elif(str(sys.argv[1]) == "continue" and str(sys.argv[2]) == 'plot'):
-    individual_plot_continue()
+    individual_plot_continue(sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
 elif(str(sys.argv[1]) == "boxplot" and str(sys.argv[2]) == 'subplot'):
-    plot_boxplot()
+    plot_boxplot(sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
 elif(str(sys.argv[1]) == "boxplot" and str(sys.argv[2]) == 'plot'):
-    individual_plot_boxplot()
+    individual_plot_boxplot(sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6])
 else :
     print("Argument non-défini")

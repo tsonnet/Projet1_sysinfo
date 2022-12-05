@@ -5,7 +5,7 @@ INCLUDE_HEADERS_DIRECTORY=-Iheaders
 
 # ligne 9 :this will run the following command: gcc -Wall -Werror -g -o kmeans src/distance.o other_object_filespresent_above.o ... -lcunit -lpthread
 
-all : all_exe all_data python #zip
+all : all_exe all_data python python_inginious#zip
 
 all_exe : philosophes prodcons lececriv  #compile les 3 fonctions
 
@@ -58,12 +58,18 @@ data_lececriv: #compile le csv de lececriv
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ -c $<
 
 python: 
-	python3 Part1/Timer/script_python.py continue plot
-	python3 Part1/Timer/script_python.py boxplot plot
-	python3 Part1/Timer/script_python.py continue subplot
-	python3 Part1/Timer/script_python.py boxplot subplot
+	python3 Part1/Timer/script_python.py continue plot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
+	python3 Part1/Timer/script_python.py boxplot plot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
+	python3 Part1/Timer/script_python.py continue subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
+	python3 Part1/Timer/script_python.py boxplot subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
 	mv *.png Part1/Plots/
 
+python_inginious:
+	python3 Part1/Timer/script_python.py continue plot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
+	python3 Part1/Timer/script_python.py boxplot plot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
+	python3 Part1/Timer/script_python.py continue subplot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
+	python3 Part1/Timer/script_python.py boxplot subplot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
+	mv *.png Part1/Plots/
 zip:
 	zip -r target2.zip Part1 Part2 Makefile README.md Experiments experiments.sh
 
