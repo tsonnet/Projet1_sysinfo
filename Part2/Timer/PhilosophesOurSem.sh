@@ -2,11 +2,11 @@
 
 #gcc -pthread Semimplem.c -o philosophesOurSem  philosphesOurSem.c 
 
-cd ../srcOurSem
+cd ../src
 THREADS=(1 2 4 8 16 32 64) # ON met directement deux philo car bug avec 1
 echo "thread,i,time"
 for thread in "${THREADS[@]}"; do
 	for i in {1..5}; do
-		/usr/bin/time -f "$thread,$i,%E" ./philosophesOurSem  $thread 2>&1
+		/usr/bin/time -f "$thread,$i,%E" ./philosophes2  $thread 2>&1
 	done
 done

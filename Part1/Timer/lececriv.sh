@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ../src
-THREADS=(1 2 4 8 ) # ON met directement deux philo car bug avec 1
+THREADS=(1 2 4 8 16 32 64) # ON met directement deux philo car bug avec 1
 echo "thread,i,time"
 for thread in "${THREADS[@]}"; do
 	for i in {1..5}; do
