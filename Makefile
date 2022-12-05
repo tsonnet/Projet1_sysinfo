@@ -19,7 +19,7 @@ philosophes: Part1/src/philosophes.c  # compile philosophes # add your other obj
 
 data_philo: #compile le csv de philo
 	cd Part1/Timer;\
-	./philosophes.sh >> philosophes.csv;\
+	./philosophes.sh ;\
 	cd ../..;
 
 prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
@@ -28,7 +28,7 @@ prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files
 
 data_prodcons: #compile le csv de prodcons
 	cd Part1/Timer;\
-	./prodcons.sh >> prodcons.csv;\
+	./prodcons.sh;\
 	cd ../..;
 
 lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
@@ -37,7 +37,7 @@ lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files
 
 data_lececriv: #compile le csv de lececriv
 	cd Part1/Timer;\
-	./lececriv.sh >> lececriv.csv;\
+	./lececriv.sh;\
 	cd ../..;
 
 %.o: %.c                  # if for example you want to compute example.c this will create an object file called example.o in the same directory as example.c. Don't forget to clean it in your "make clean"
@@ -51,7 +51,7 @@ python:
 	mv *.png Part1/Plots/
 
 zip:
-	zip target.zip Part1 Part2 Makefile README.md Experiments
+	zip target2.zip Part1 Part2 Makefile README.md Experiments experiments.sh
 
 clean_exe: #supprime tous les exécutables
 	rm -f Part1/src/prodcons Part1/src/lececriv Part1/src/philosophes

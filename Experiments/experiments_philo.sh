@@ -1,4 +1,4 @@
 #!/bin/bash
 
 make philosophes
-make data_philosophes
+make data_philo
