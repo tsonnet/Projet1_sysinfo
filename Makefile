@@ -13,6 +13,8 @@ all_exe2 : philosophes2 prodcons2 lececriv2
 
 all_data: data_philo data_lececriv data_prodcons #compile tous les csv
 
+all_data2: data_philo2 data_lececriv2 data_prodcons2 #compile tous les csv
+
 clean_all : clean_exe clean_csv clean_python clean_zip
 
 philosophes: Part1/src/philosophes.c  # compile philosophes # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
@@ -36,7 +38,7 @@ prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
 
-prodcons2: Part2/src/prodcons.c
+prodcons2: Part2/src/prodconsOurSem.c Part2/src/Semimplem.c
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
@@ -45,13 +47,27 @@ data_prodcons: #compile le csv de prodcons
 	./prodcons.sh > prodcons.csv;\
 	cd ../..;
 
-lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
+data_prodcons2: #compile le csv de prodcons
+	cd Part2/Timer;\
+	./ProdconsOurSem.sh > prodcons2.csv;\
+	cd ../..;
+
+lececriv: Part1/src/lececrivOurSem.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
+
+lececriv2: Part2/src/lececrivOurSem.c  Part2/src/Semimplem.c # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
+	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
+	mv $@ Part2/src/
 
 data_lececriv: #compile le csv de lececriv
 	cd Part1/Timer;\
 	./lececriv.sh > lececriv.csv;\
+	cd ../..;
+
+data_lececriv2: #compile le csv de lececriv
+	cd Part2/Timer;\
+	./LececrivOurSem.sh > lececriv2.csv;\
 	cd ../..;
 
 %.o: %.c                  # if for example you want to compute example.c this will create an object file called example.o in the same directory as example.c. Don't forget to clean it in your "make clean"

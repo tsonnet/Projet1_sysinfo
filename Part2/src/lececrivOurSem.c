@@ -8,14 +8,15 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <semaphore.h>
+#include "../Headers/OurSem.h"
 
 
-pthread_mutex_t mutex_readcount;
-pthread_mutex_t mutex_writecount;
-pthread_mutex_t mutex;
+int mutex_readcount;
+int mutex_writecount;
+int mutex;
 
-sem_t wsem;  // accès à la db
-sem_t rsem;
+struct Our_semInit* wsem;  // accès à la db
+struct Our_semInit* rsem;
 
 int readcount=0; // nombre de readers
 int writecount=0;
@@ -39,35 +40,35 @@ void* writer(void* id){
 
     while(total_writings < writings){
             ////printf("le writer %d accède à sa fonction et est bloqué !!\n",id_int);
-            pthread_mutex_lock(&mutex_writecount);
+            lock(&mutex_writecount);
                   ////printf("le writer %d est débloqué, ouf !\n",id_int);
                   writecount++;
                   if(writecount == 1){
                       ////printf("le writer %d attend un reader et debloque le mutex\n",id_int);
-                      sem_wait(&rsem); //attend plus de readers
+                      OurSemWait(rsem); //attend plus de readers
 
                   }
-            pthread_mutex_unlock(&mutex_writecount);
+            unlock(&mutex_writecount);
             
             //printf("le writer %d attend un signal\n",id_int);
-            sem_wait(&wsem);
+            OurSemWait(wsem);
               //printf("le writer %d a reçu un signal et lance sa fonction\n",id_int);
               // section critique, un seul writer à la fois
               if(total_writings != writings){
                 processing_CPU();
                 total_writings++;
               }
-            sem_post(&wsem);
+            OurSemPost(wsem);
             //printf("le writer %d envoie un signal wsem et est bloqué\n",id_int);
 
-            pthread_mutex_lock(&mutex_writecount);
+            lock(&mutex_writecount);
                   //printf("le writer %d est débloqué, deuxième ouf !\n",id_int);
                   writecount--;
                   if (writecount == 0){
                       //printf("le writer %d envoie un signal rsem et debloque le mutex\n",id_int);
-                      sem_post(&rsem); //autorise les readers
+                      OurSemPost(rsem); //autorise les readers
                   }
-            pthread_mutex_unlock(&mutex_writecount);
+            unlock(&mutex_writecount);
             //printf("le writer %d finit sa boucle\n",id_int);
                       
 
@@ -85,43 +86,43 @@ void* reader(void* id){
     while(total_readings < readings){
             //printf("le reader %d accède à sa fonction et est bloqué !!\n",id_int);
             
-            pthread_mutex_lock(&mutex); //un seul reader à la fois a acces à sem_wait
+            lock(&mutex); //un seul reader à la fois a acces à sem_wait
             //printf("le reader %d est débloqué et attend un signal rsem\n",id_int);
                   
-            sem_wait(&rsem); //n'avoir qu'un seul reader qui lit
+            OurSemWait(rsem); //n'avoir qu'un seul reader qui lit
             //printf("le reader %d est bloqué et est a reçu son signal rsem\n",id_int);
                   
-            pthread_mutex_lock(&mutex_readcount);
+            lock(&mutex_readcount);
               // section critique
               readcount++;
               if (readcount==1)
               { // arrivée du premier reader
                 //printf("le reader %d est solo et attend wsem\n",id_int);
         
-                sem_wait(&wsem);// je suis entrain de lire, vous ne pouvez plus écrire
+                OurSemWait(wsem);// je suis entrain de lire, vous ne pouvez plus écrire
               }
               if(writecount == 1){
                   //printf("le reader %d est bloqué envoie un signal rsem\n",id_int);
-                  sem_post(&wsem);
+                  OurSemPost(wsem);
               }
-            pthread_mutex_unlock(&mutex_readcount);
-            sem_post(&rsem);
+            unlock(&mutex_readcount);
+            OurSemPost(rsem);
 
-            pthread_mutex_unlock(&mutex);
+            unlock(&mutex);
 
             if(total_readings != readings){
                 total_readings++;
                 processing_CPU();
             }
 
-            pthread_mutex_lock(&mutex_readcount);
+            lock(&mutex_readcount);
               // section critique
               readcount--;
               if(readcount==0)
               { // départ du dernier reader
-                sem_post(&wsem);
+                OurSemPost(wsem);
               }
-            pthread_mutex_unlock(&mutex_readcount);
+            unlock(&mutex_readcount);
     }
     return (NULL);
 }
@@ -142,15 +143,15 @@ int main(int argc, char* argv[]){
     readings = atoi(argv[3]);
     writings = atoi(argv[4]);
 
-    sem_init(&wsem,0,1);
-    sem_init(&rsem,0,1);
+    wsem = InitOurSem(1);
+    rsem = InitOurSem(1);
 
     pthread_t Readers_threads[nb_readers];
     pthread_t Writers_threads[nb_writers];
 
-    pthread_mutex_init(&mutex_writecount,NULL);
-    pthread_mutex_init(&mutex_readcount,NULL);
-    pthread_mutex_init(&mutex,NULL);
+    mutex_writecount = 0;
+    mutex_readcount = 0;
+    mutex = 0;
 
         // Create n Readers
     for (int i = 0; i < nb_writers; i++) {
@@ -183,11 +184,8 @@ int main(int argc, char* argv[]){
     }
 
 
-    sem_destroy(&wsem);
-    sem_destroy(&rsem);
-    pthread_mutex_destroy(&mutex_readcount);
-    pthread_mutex_destroy(&mutex_writecount);
-    pthread_mutex_destroy(&mutex);
+    OurSemDestroy(wsem);
+    OurSemDestroy(rsem);
 
     //printf("Total readings = %d and Total writings = %d\n", total_readings,total_writings);
     //t2 = clock() - t1;

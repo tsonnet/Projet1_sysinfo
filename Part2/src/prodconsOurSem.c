@@ -22,7 +22,7 @@ struct Our_semInit* full;
 
 int total_production = 0;
 int total_consumption = 0;
-int mutex;
+int mutex  = 0;
 
  //le buffer est une variable partagée
                               //il faut la mettre dans un mutex
@@ -42,8 +42,7 @@ int mutex;
 */
 
 int number_of_element = 0;
-sem_t empty; //compte le nombre de places vides, intitialisé à 8
-sem_t full; //compte le nomnre de places utilisées,intitialisé à 0
+
 
 void processing_CPU(void){
     int count = 0;
@@ -84,21 +83,21 @@ void *producers(void *id){
     int item = (int) random() % MODULO;
     while (total_production < prod){  
         //printf("le producteur attend le signal, il a produit %d unités\n",total_production);
-        sem_wait(&empty); //attend une place dans le buffer
-        pthread_mutex_lock(&mutex_buffer);
+        OurSemWait(empty); //attend une place dans le buffer
+        lock(&mutex);
             if(total_production != prod){
                 insert(number_of_element,item,id_int);
                 number_of_element = (number_of_element +1);
                 total_production++;
             }
-        pthread_mutex_unlock(&mutex_buffer);
-        sem_post(&full) ; //incrémente le nombre de place de 1
+        unlock(&mutex);
+        OurSemPost(full) ; //incrémente le nombre de place de 1
         //printf("le producteur envoie le signal\n");
         processing_CPU();
     }
     //printf("le producteur sort de la boucle\n");  
     if(nb_of_producers > 1){
-        sem_post(&empty); //si par malheur un consommateur est encore bloqué
+        OurSemPost(empty); //si par malheur un consommateur est encore bloqué
     }
     return(NULL);   
 }
@@ -127,7 +126,7 @@ void *consumers(void *id){
     //printf("le consommateur %d sort de sa boucle\n",id_int);
     
     if(nb_of_consumers > 1){
-        sem_post(&full); //si par malheur un consommateur est encore bloqué
+        OurSemPost(full); //si par malheur un consommateur est encore bloqué
     }
     
     return(NULL);
@@ -150,8 +149,6 @@ int main(int argc, char* argv[]){
 
     empty = InitOurSem(SIZE);
     full = InitOurSem(0);
-
-    int mutex = 0;
 
         // Create n producers
     for (int i = 0; i < nb_of_producers; i++) {
@@ -184,8 +181,7 @@ int main(int argc, char* argv[]){
 
 
     OurSemDestroy(empty);
-    ourSemDestroy(full);
-    free(mutex);
+    OurSemDestroy(full);
 
     //printf("Total items produced = %d and Total items consumed = %d\n", total_production,total_consumption);
     //t2 = clock() - t1;
