@@ -4,46 +4,146 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
+import sys
+
+from Extract_data import Extract_data,Extract_data_boxplot
+
+X1, Y1 = Extract_data('Part1/Timer/philosophes.csv',5)
+
+X2,Y2 = Extract_data('Part1/Timer/lececriv.csv',5)
+
+X3,Y3 = Extract_data('Part1/Timer/prodcons.csv',5)
+
+def plot_continue():  
+
+    fig = plt.figure(figsize = (5, 10))
+    ax1 = fig.add_subplot(3,1,1)
+    ax2 = fig.add_subplot(3,1,2)
+    ax3 = fig.add_subplot(3,1,3)
+
+    ax1.plot(X1,Y1,'-b')
+    ax1.set_xlabel('Number of threads')
+    ax1.set_ylabel('Time in milliseconds')
+    ax1.set_title('Philosophes')
+
+    ax2.plot(X2,Y2,'-g')
+    ax2.set_xlabel('Number of threads')
+    ax2.set_ylabel('Time in milliseconds')
+    ax2.set_title('Lececriv')
+
+    ax3.plot(X3,Y3,'-r')
+    ax3.set_xlabel('Number of threads')
+    ax3.set_ylabel('Time in milliseconds')
+    ax3.set_title('Prodcons')
+
+    fig.tight_layout()
+    plt.savefig('graph.png')
+    plt.show(block = False)
 
 
-def little_plot(path,nb_rep):
+def individual_plot_continue():
 
-    data = pd.read_csv(path)
+    plt.figure()
+    plt.plot(X1,Y1,'-b')
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Philisophes')
+    plt.savefig("philosophes.png")
 
-    X = data[data.columns.values[0]]
-    Y = data[data.columns.values[2]]
+    plt.figure()
+    plt.plot(X2,Y2,'-g')
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Lececriv')
+    plt.savefig("lececriv.png")
 
-    print(X)
-    print(Y)
+    plt.figure()
+    plt.plot(X3,Y3,'-r')
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Prodcons')
+    plt.savefig("prodcons.png")
 
-    List_average = []
+X1_plot, Y1_plot = Extract_data_boxplot('Part1/Timer/philosophes.csv',5)
 
-    for i in range(int(len(Y)/nb_rep)):
-        sum = 0
-        for j in range(nb_rep):
-            datetime_str = Y[i*5 + j]
-            datetime_object = datetime.strptime(datetime_str, "%M:%S.%f")
-            total_milisecond = int(datetime_object.microsecond/1000)
-            sum += total_milisecond
-        List_average.append(sum/nb_rep)
+X2_plot,Y2_plot = Extract_data_boxplot('Part1/Timer/lececriv.csv',5)
 
+X3_plot,Y3_plot = Extract_data_boxplot('Part1/Timer/prodcons.csv',5)
 
-    average = np.average(List_average)
-    standard_deviation = np.std(List_average)
-    
-    x = X[::nb_rep]
-    
-    plt.plot(x, List_average, '-b')
-    
-    plt.title("Execution Time by number of threads")
-    plt.xlabel("Number of threads")
-    plt.ylabel("Miliseconds")
-    plt.show()
-    
-    return
-    
-"""little_plot('philosophes.csv',5)"""
+def plot_boxplot():
 
-"""little_plot('lececriv.csv',5)"""
+    fig = plt.figure(figsize = (5, 10))
+    ax1 = fig.add_subplot(3,1,1)
+    ax2 = fig.add_subplot(3,1,2)
+    ax3 = fig.add_subplot(3,1,3)
 
-little_plot('Prodcons.csv',5)
+    ax1.boxplot(Y1_plot)
+    ax1.xaxis.set_ticklabels(X1_plot)
+    ax1.set_xlabel('Number of threads')
+    ax1.set_ylabel('Time in milliseconds')
+    ax1.set_title('Philisophes')
+
+    ax2.boxplot(Y2_plot)
+    ax2.xaxis.set_ticklabels(X2_plot)
+    ax2.set_xlabel('Number of threads')
+    ax2.set_ylabel('Time in milliseconds')
+    ax2.set_title('Lececriv')
+
+    ax3.boxplot(Y3_plot)
+    ax3.xaxis.set_ticklabels(X3_plot)
+    ax3.set_xlabel('Number of threads')
+    ax3.set_ylabel('Time in milliseconds')
+    ax3.set_title('Prodcons')
+
+    fig.tight_layout()
+    plt.savefig('graph_boxplot.png')
+    plt.show(block = False)
+
+def individual_plot_boxplot():
+
+    plt.figure()
+    plt.boxplot(Y1_plot)
+    plt.gca().get_xaxis().set_ticklabels(X1_plot)
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Philosophes')
+    plt.savefig("philosophes_boxplot.png")
+
+    plt.figure()
+    plt.boxplot(Y2_plot)
+    plt.gca().get_xaxis().set_ticklabels(X2_plot)
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Lececriv')
+    plt.savefig("lececriv_boxplot.png")
+
+    plt.figure()
+    plt.boxplot(Y3_plot)
+    plt.gca().get_xaxis().set_ticklabels(X3_plot)
+    plt.xlabel('Number of threads')
+    plt.ylabel('Time in milliseconds')
+    plt.title('Prodcons')
+    plt.savefig("prodcons_boxplot.png")
+
+if len( sys.argv ) <= 2:
+    print('Besoin de 2 paramètres')
+    exit()
+
+if len(sys.argv) > 3:
+    print("Trop d'arguments")
+    exit()
+try:
+        param = str(sys.argv[1])
+except ValueError: 
+        print( "Bad parameter value: %s" % sys.argv, file=sys.stderr )  
+
+if(str(sys.argv[1]) == "continue" and str(sys.argv[2]) == 'subplot'):
+    plot_continue()
+elif(str(sys.argv[1]) == "continue" and str(sys.argv[2]) == 'plot'):
+    individual_plot_continue()
+elif(str(sys.argv[1]) == "boxplot" and str(sys.argv[2]) == 'subplot'):
+    plot_boxplot()
+elif(str(sys.argv[1]) == "boxplot" and str(sys.argv[2]) == 'plot'):
+    individual_plot_boxplot()
+else :
+    print("Argument non-défini")
