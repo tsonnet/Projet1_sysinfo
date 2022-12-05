@@ -1,10 +1,16 @@
 #!/bin/bash
 
-make philosophes
-make data_philo
 
-make lececriv
-make data_lececriv
+cd  Part1/Timer
 
-make prodcons
-make data_prodcons
+
+echo " Philo"
+./philosophes.sh
+
+echo " ProdCons"
+
+./prodcons.sh
+
+echo " lececriv.sh"
+
+./lececriv.sh

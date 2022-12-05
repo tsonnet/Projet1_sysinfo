@@ -2,7 +2,7 @@
 
 #gcc -pthread Semimplem.c -o lececrivOurSem  ....
 
-cd ../srcOurSem
+cd ../src
 THREADS=(1 2 4 8 ) 
 echo "thread,i,time"
 for thread in "${THREADS[@]}"; do

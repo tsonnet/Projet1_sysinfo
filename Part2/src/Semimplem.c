@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-int lock(int* x){
+int* lock(int* x){
     asm(
         "enterhere:"
         "movl $1, %%eax;"
@@ -15,9 +15,10 @@ int lock(int* x){
         :"r"(x)   /* x is input operand */
         :"%eax" /* %eax is clobbered register */
     );
+    return x;
 }
 
-int unlock(int* x){
+void unlock(int* x){
     asm(
         "movl $0, %%eax;"
         "xchgl %%eax, (%1);"
