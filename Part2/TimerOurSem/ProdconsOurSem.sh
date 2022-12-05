@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#gcc -pthread Semimplem.c -o ProdconsOurSem  ....
 cd ../srcOurSem
 THREADS=(1 2 4 8 ) 
 echo "thread,i,time"

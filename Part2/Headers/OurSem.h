@@ -1,9 +1,16 @@
 #ifndef OurSem
 #define OurSem
 
+#include <stdlib.h>
 
-void OurSemWait(int* x);
-void OurSemPost(int* x);
+struct Our_semInit{
+    int Lock;
+    int val;
+};
+int unlock(int* x);
+int lock(int* x);
+void OurSemWait(struct Our_semInit* sem);
+void OurSemWait(struct Our_semInit* sem);
 
 
 

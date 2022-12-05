@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "../OurSem/Semimplem.c"
+#include "../Headers/OurSem.h"
 
 
 int PHILOSOPHES=0;
@@ -20,16 +20,16 @@ void* philosophe ( void* arg )
     while(n < 100000) {
         // philosophe pense
         if(left<right) {
-            OurSemWait(&baguette[left]);
-            OurSemWait(&baguette[right]);
+            lock(&baguette[left]);
+            lock(&baguette[right]);
         }
         else {
-            OurSemWait(&baguette[right]);
-            OurSemWait(&baguette[left]);
+            unlock(&baguette[right]);
+            unlock(&baguette[left]);
         }
         //mange(id);
-        OurSemPost(&baguette[left]);
-        OurSemPost(&baguette[right]);
+        unlock(&baguette[left]);
+        unlock(&baguette[right]);
         n++;
     }
     return (NULL);
