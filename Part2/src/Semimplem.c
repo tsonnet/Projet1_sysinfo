@@ -15,7 +15,7 @@ int lock(int* x){
         :"r"(x)   /* x is input operand */
         :"%eax" /* %eax is clobbered register */
     );
-    return *x;
+    return x;
 }
 
 void unlock(int* x){
@@ -41,6 +41,14 @@ int enterTestAndSet(int* x){
         :"%eax"/* %eax is clobbered register */
     );
     return to_ret;
+}
+
+void TestAndTestAndSet(int *x){
+
+    do
+    {
+        while (*x){}  
+    }while(enterTestAndSet(x));   
 }
 
 
@@ -73,9 +81,7 @@ void OurSemPost(struct Our_semInit* sem){
 
 
 void OurSemWait(struct Our_semInit* sem){
-    while (1)
-    {
-
+    while (1){
         if(sem->val>0){
             TestAndTestAndSet(&(sem->Lock));    
             if(sem->val>0){

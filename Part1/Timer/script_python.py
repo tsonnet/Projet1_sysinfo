@@ -24,17 +24,27 @@ def plot_continue(path1, path2, path3,case):
     ax1.plot(X1,Y1,'-b')
     ax1.set_xlabel('Number of threads')
     ax1.set_ylabel('Time in milliseconds')
-    ax1.set_title('Philosophes')
+    if "2" in path1:
+    	ax1.set_title('PhilosophesOurSem')
+    else:
+    	ax1.set_title('Philosophes')
 
     ax2.plot(X2,Y2,'-g')
     ax2.set_xlabel('Number of threads')
     ax2.set_ylabel('Time in milliseconds')
-    ax2.set_title('Lececriv')
+    if "2" in path2 :
+    	ax2.set_title('LececrivOurSem')
+    else :
+    	ax2.set_title('Lececriv')
 
     ax3.plot(X3,Y3,'-r')
     ax3.set_xlabel('Number of threads')
     ax3.set_ylabel('Time in milliseconds')
-    ax3.set_title('Prodcons')
+    if "2" in path3 :
+    	ax3.set_title('ProdconsOurSem')
+    else:
+    	ax3.set_title('Prodcons')
+    	
     fig.tight_layout()
 
     if(case == 'ordi'):
@@ -57,7 +67,10 @@ def individual_plot_continue(path1, path2, path3,case):
     plt.plot(X1,Y1,'-b')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Philisophes')
+    if "2" in path1:
+    	plt.title('PhilosophesOurSem')
+    else:
+    	plt.title('Philosophes')
     if (case == 'ordi'):
         plt.savefig("philosophes.png")
     else:
@@ -67,7 +80,11 @@ def individual_plot_continue(path1, path2, path3,case):
     plt.plot(X2,Y2,'-g')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Lececriv')
+    if "2" in path1:
+    	plt.title('LececrivOurSem')
+    else:
+    	plt.title('Lececriv')
+    
     if case == 'ordi':
         plt.savefig("lececriv.png")
     
@@ -78,7 +95,10 @@ def individual_plot_continue(path1, path2, path3,case):
     plt.plot(X3,Y3,'-r')
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Prodcons')
+    if "2" in path1:
+    	plt.title('ProdconsOurSem')
+    else:
+    	plt.title('Prodcons')
     if (case == 'ordi'):
         plt.savefig("prodcons.png")
     else :
@@ -107,19 +127,29 @@ def plot_boxplot(path1, path2, path3,case):
     ax1.xaxis.set_ticklabels(X1_plot)
     ax1.set_xlabel('Number of threads')
     ax1.set_ylabel('Time in milliseconds')
-    ax1.set_title('Philisophes')
+    if "2" in path1:
+    	ax1.set_title('PhilosophesOurSem')
+    else:
+    	ax1.set_title('Philosophes')
+
 
     ax2.boxplot(Y2_plot)
     ax2.xaxis.set_ticklabels(X2_plot)
     ax2.set_xlabel('Number of threads')
     ax2.set_ylabel('Time in milliseconds')
-    ax2.set_title('Lececriv')
+    if "2" in path2 :
+    	ax2.set_title('LececrivOurSem')
+    else :
+    	ax2.set_title('Lececriv')
 
     ax3.boxplot(Y3_plot)
     ax3.xaxis.set_ticklabels(X3_plot)
     ax3.set_xlabel('Number of threads')
     ax3.set_ylabel('Time in milliseconds')
-    ax3.set_title('Prodcons')
+    if "2" in path3 :
+    	ax3.set_title('ProdconsOurSem')
+    else:
+    	ax3.set_title('Prodcons')
 
     fig.tight_layout()
     if (case == 'ordi'):
@@ -141,7 +171,10 @@ def individual_plot_boxplot(path1, path2, path3,case):
     plt.gca().get_xaxis().set_ticklabels(X1_plot)
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Philosophes')
+    if "2" in path1:
+    	plt.title('PhilosophesOurSem')
+    else:
+    	plt.title('Philosophes')
     if (case == 'ordi'):
         plt.savefig("philosophes_boxplot.png")
     else :
@@ -152,7 +185,10 @@ def individual_plot_boxplot(path1, path2, path3,case):
     plt.gca().get_xaxis().set_ticklabels(X2_plot)
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Lececriv')
+    if "2" in path1:
+    	plt.title('LececrivOurSem')
+    else:
+    	plt.title('Lececriv')
     if (case == 'ordi'):
         plt.savefig("lececriv_boxplot.png") 
     else :
@@ -163,7 +199,10 @@ def individual_plot_boxplot(path1, path2, path3,case):
     plt.gca().get_xaxis().set_ticklabels(X3_plot)
     plt.xlabel('Number of threads')
     plt.ylabel('Time in milliseconds')
-    plt.title('Prodcons')
+    if "2" in path1:
+    	plt.title('ProdconsOurSem')
+    else:
+    	plt.title('Prodcons')
     if (case == 'ordi'):
         plt.savefig("prodcons_boxplot.png")
     else :
