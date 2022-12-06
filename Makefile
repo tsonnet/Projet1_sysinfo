@@ -13,6 +13,8 @@ all_exe2 : philosophes2 prodcons2 lececriv2
 
 all_data: data_philo data_lececriv data_prodcons #compile tous les csv
 
+all_data2 : data_philo2 data_prodcons2
+
 clean_all : clean_exe clean_csv clean_python clean_zip
 
 philosophes: Part1/src/philosophes.c  # compile philosophes # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
@@ -36,13 +38,18 @@ prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
 
-prodcons2: Part2/src/prodcons.c
+prodcons2: Part2/src/prodcons2.c
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
 data_prodcons: #compile le csv de prodcons
 	cd Part1/Timer;\
 	./prodcons.sh > prodcons.csv;\
+	cd ../..;
+
+data_prodcons2: #compile le csv de prodcons
+	cd Part2/Timer;\
+	./prodconsOurSem.sh > prodcons.csv;\
 	cd ../..;
 
 lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
