@@ -42,7 +42,7 @@ prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
 
-prodcons2: Part2/src/prodcons2.c
+prodcons2: Part2/src/prodconsOurSem.c Part2/src/Semimplem.c
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
