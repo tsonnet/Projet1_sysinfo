@@ -35,12 +35,9 @@ int leave(int* x){
 void* Action(void* N){
     int Nit = *((int*) N);
     for(int i=0; i< Nit ;i++){
-
         enter(&lock);
-
         for (int j=0; j<10000; j++);
         leave(&lock);
-
     }
 }
 int main(int argc, void* argv[]){

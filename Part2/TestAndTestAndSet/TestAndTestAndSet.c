@@ -7,19 +7,18 @@
 
 int lock=0;
 
-int enter(int* x){
+int enterTestAndSet(int* x){
+    int to_ret;
     asm(
-        "enterhere:"
         "movl $1, %%eax;"
         "xchgl %%eax, (%1);"
+        "movl %%eax, %0"
 
-        "testl %%eax, %%eax;"
-        "jnz enterhere;"
-
-        :"=r"(x)  /* x is output operand */
+        :"=r"(to_ret)  /* x is output operand */
         :"r"(x)   /* x is input operand */
-        :"%eax" /* %eax is clobbered register */
+        :"%eax"/* %eax is clobbered register */
     );
+    return to_ret;
 }
 
 int leave(int* x){
@@ -33,30 +32,25 @@ int leave(int* x){
     );
 }
 
-void SemOurWait(int *x, int *size_of_sem){
-    while(enter(x)){
-        size_of_sem--;
-    }
-    while(leave(x)){
-        size_of_sem++;
-    }
-}
 
 
-void TestAndTestAndSet(){
 
-    while (enter(&lock))
+void TestAndTestAndSet(int *x){
+
+    do
     {
-        while (lock){}  
-    }   
+        while (*x){}  
+    }while(enterTestAndSet(x));   
 }
 
 void* Action(void* N){
     int Nit = *((int*) N);
     for(int i=0; i< Nit ;i++){
+
         TestAndTestAndSet(&lock);
         for (int j=0; j<10000; j++);
         leave(&lock);
+
     }
 }
 
