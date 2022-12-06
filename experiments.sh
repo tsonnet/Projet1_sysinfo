@@ -1,16 +1,29 @@
 #!/bin/bash
 
 
-cd  Part1/Timer
+cd  Part2/Timer
 
 
 echo " Philo"
-./philosophes.sh
+#./PhilosophesOurSem.sh
 
 echo " ProdCons"
 
-./prodcons.sh
+#./ProdconsOurSem.sh
 
 echo " lececriv.sh"
 
-./lececriv.sh
+#./LececrivOurSem.sh
+
+echo "TestAndSet"
+
+cd ../TestAndSet
+
+./testandset.sh
+
+echo "TestAndTestAndSet"
+
+cd ../TestAndTestAndSet
+
+./TestAndTestAndSet.sh
+

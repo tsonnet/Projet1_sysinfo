@@ -7,7 +7,7 @@
 
 int lock=0;
 
-int enter(int* x){
+void enter(int* x){
     asm(
         "enterhere:"
         "movl $1, %%eax;"
@@ -22,7 +22,7 @@ int enter(int* x){
     );
 }
 
-int leave(int* x){
+void leave(int* x){
     asm(
         "movl $0, %%eax;"
         "xchgl %%eax, (%1);"
@@ -39,8 +39,9 @@ void* Action(void* N){
         for (int j=0; j<10000; j++);
         leave(&lock);
     }
+    return N;
 }
-int main(int argc, void* argv[]){
+int main(int argc, char* argv[]){
     int Nthread = atoi(argv[1]);
     pthread_t *thread = malloc(Nthread*sizeof(pthread_t));
     int ActionPerThread = 6400/Nthread;

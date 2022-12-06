@@ -9,7 +9,7 @@ struct Our_semInit{
 };
 
 void unlock(int* x);
-int* lock(int* x);
+int lock(int* x);
 
 void OurSemWait(struct Our_semInit* sem);
 void OurSemPost(struct Our_semInit* sem);

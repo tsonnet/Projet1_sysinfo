@@ -21,7 +21,7 @@ int enterTestAndSet(int* x){
     return to_ret;
 }
 
-int leave(int* x){
+void leave(int* x){
     asm(
         "movl $0, %%eax;"
         "xchgl %%eax, (%1);"
@@ -37,10 +37,10 @@ int leave(int* x){
 
 void TestAndTestAndSet(int *x){
 
-    do
+    while(enterTestAndSet(x))
     {
         while (*x){}  
-    }while(enterTestAndSet(x));   
+    } 
 }
 
 void* Action(void* N){
@@ -52,9 +52,10 @@ void* Action(void* N){
         leave(&lock);
 
     }
+    return N;
 }
 
-int main(int argc, void* argv[]){
+int main(int argc, char* argv[]){
     int Nthread = atoi(argv[1]);
     pthread_t *thread = malloc(Nthread*sizeof(pthread_t));
     int ActionPerThread = 6400/Nthread;
