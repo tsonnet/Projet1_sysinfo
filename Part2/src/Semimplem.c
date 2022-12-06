@@ -30,14 +30,27 @@ void unlock(int* x){
 }
 
 
-void TestAndTestAndSet(int * locke){
-    while (lock(locke))
+void TestAndTestAndSet(int *x){
+
+    do
     {
-        while (*locke){}  
-    }
-    
+        while (*x){}  
+    }while(enterTestAndSet(x));   
 }
 
+int enterTestAndSet(int* x){
+    int to_ret;
+    asm(
+        "movl $1, %%eax;"
+        "xchgl %%eax, (%1);"
+        "movl %%eax, %0"
+
+        :"=r"(to_ret)  /* x is output operand */
+        :"r"(x)   /* x is input operand */
+        :"%eax"/* %eax is clobbered register */
+    );
+    return to_ret;
+}
 
 struct Our_semInit* InitOurSem(int x){
     struct Our_semInit* my_sem = malloc(sizeof(struct Our_semInit));
