@@ -1,6 +1,6 @@
 #include "../Headers/OurSem.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 
 int* lock(int* x){
     asm(
@@ -31,7 +31,6 @@ void unlock(int* x){
 
 
 void TestAndTestAndSet(int * locke){
-
     while (lock(locke))
     {
         while (*locke){}  
@@ -43,6 +42,7 @@ void TestAndTestAndSet(int * locke){
 struct Our_semInit* InitOurSem(int x){
     struct Our_semInit* my_sem = malloc(sizeof(struct Our_semInit));
     my_sem->val=x;
+    my_sem->Lock=0;
     return my_sem;
 }
 
@@ -64,26 +64,13 @@ void OurSemWait(struct Our_semInit* sem){
     {
 
         if(sem->val>0){
-            TestAndTestAndSet(&(sem->Lock));    
+            lock(&(sem->Lock));    
             if(sem->val>0){
                 sem->val-=1;
+                unlock(&(sem->Lock));
+                break;
             }        
             unlock(&(sem->Lock));
-            break;
         }
-    }
-}
-
-void OurSemWait(struct Our_semInit* sem){
-    TestAndTestAndSet(&(sem->Lock));
-    while (1){
-        if(sem->val == 0){
-            unlock(&(sem->Lock));
-        }
-        else{
-            sem->val -=1
-            unlock(&(sem->Lock));
-            break;
-        }      
     }
 }
