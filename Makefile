@@ -49,10 +49,10 @@ data_prodcons: #compile le csv de prodcons
 
 data_prodcons2: #compile le csv de prodcons
 	cd Part2/Timer;\
-	./ProdconsOurSem.sh > prodcons2.csv;\
+	./prodconsOurSem.sh > prodcons.csv;\
 	cd ../..;
 
-lececriv: Part1/src/lececrivOurSem.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
+lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
 
@@ -91,10 +91,10 @@ zip:
 
 clean_exe: #supprime tous les exécutables
 	rm -f Part1/src/prodcons Part1/src/lececriv Part1/src/philosophes
-
+	rm -f Part2/src/prodcons2 Part2/src/lececriv2 Part2/src/philosophes2
 clean_csv: #supprime tous les csv
 	rm -f Part1/Timer/*.csv
-
+	rm -f Part2/Timer/*.csv
 clean_python:
 	rm -f Part1/Plots/*.png
 	rm -f Part1/Timer/*.png

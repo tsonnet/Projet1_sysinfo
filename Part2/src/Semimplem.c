@@ -15,7 +15,7 @@ int* lock(int* x){
         :"r"(x)   /* x is input operand */
         :"%eax" /* %eax is clobbered register */
     );
-    return *x;
+    return x;
 }
 
 void unlock(int* x){
