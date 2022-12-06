@@ -13,11 +13,7 @@ all_exe2 : philosophes2 prodcons2 lececriv2
 
 all_data: data_philo data_lececriv data_prodcons #compile tous les csv
 
-<<<<<<< HEAD
-all_data2 : data_philo2 data_prodcons2
-=======
 all_data2: data_philo2 data_lececriv2 data_prodcons2 #compile tous les csv
->>>>>>> f6115f20a022826897f8282bb76b6e38173438d3
 
 clean_all : clean_exe clean_csv clean_python clean_zip
 
@@ -53,17 +49,10 @@ data_prodcons: #compile le csv de prodcons
 
 data_prodcons2: #compile le csv de prodcons
 	cd Part2/Timer;\
-<<<<<<< HEAD
 	./prodconsOurSem.sh > prodcons.csv;\
 	cd ../..;
 
 lececriv: Part1/src/lececriv.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
-=======
-	./ProdconsOurSem.sh > prodcons2.csv;\
-	cd ../..;
-
-lececriv: Part1/src/lececrivOurSem.c  # compile lececriv # add your other object files needed to compile your program here. !! The ordering is important !! if file_a.o depends on file_b.o, file_a.o must be placed BEFORE file_b.o in the list !
->>>>>>> f6115f20a022826897f8282bb76b6e38173438d3
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part1/src/
 
@@ -102,10 +91,10 @@ zip:
 
 clean_exe: #supprime tous les exécutables
 	rm -f Part1/src/prodcons Part1/src/lececriv Part1/src/philosophes
-
+	rm -f Part2/src/prodcons2 Part2/src/lececriv2 Part2/src/philosophes2
 clean_csv: #supprime tous les csv
 	rm -f Part1/Timer/*.csv
-
+	rm -f Part2/Timer/*.csv
 clean_python:
 	rm -f Part1/Plots/*.png
 	rm -f Part1/Timer/*.png
