@@ -52,7 +52,7 @@ int OurSemDestroy(struct Our_semInit * sem){
 }
 
 void OurSemPost(struct Our_semInit* sem){
-    lock(&(sem->Lock));
+    TestAndTestAndSet(&(sem->Lock));  
     sem->val+=1;
     unlock(&(sem->Lock));
 
@@ -62,16 +62,28 @@ void OurSemPost(struct Our_semInit* sem){
 void OurSemWait(struct Our_semInit* sem){
     while (1)
     {
+
         if(sem->val>0){
             TestAndTestAndSet(&(sem->Lock));    
             if(sem->val>0){
-                sem->val+=1;
+                sem->val-=1;
             }        
             unlock(&(sem->Lock));
             break;
         }
     }
+}
 
-
-
+void OurSemWait(struct Our_semInit* sem){
+    TestAndTestAndSet(&(sem->Lock));
+    while (1){
+        if(sem->val == 0){
+            unlock(&(sem->Lock));
+        }
+        else{
+            sem->val -=1
+            unlock(&(sem->Lock));
+            break;
+        }      
+    }
 }
