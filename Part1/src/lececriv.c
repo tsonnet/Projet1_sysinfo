@@ -105,13 +105,13 @@ void* reader(void* id){
                   sem_post(&wsem);
               }
             pthread_mutex_unlock(&mutex_readcount);
+            processing_CPU();
             sem_post(&rsem);
 
             pthread_mutex_unlock(&mutex);
 
             if(total_readings != readings){
                 total_readings++;
-                processing_CPU();
             }
 
             pthread_mutex_lock(&mutex_readcount);

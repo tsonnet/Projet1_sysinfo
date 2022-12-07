@@ -38,10 +38,6 @@ def Extract_data(path,nb_rep):
             sum.append(total_milisecond)
         var = np.std(sum)
         List_average2.append(var)
-
-
-    average = np.average(List_average)
-    standard_deviation = np.std(List_average)
     
     x = X[::nb_rep]
     
