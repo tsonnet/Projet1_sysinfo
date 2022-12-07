@@ -147,9 +147,11 @@ python2_inginious: #compile les trois programmes de la part2 avec le super ordi
 
 python_rapport: #comile les graphes utiles au rapport
 	python3 Part1/Timer/script_python.py plot2 Part2/TestAndSet/test_and_set.csv Part2/TestAndTestAndSet/test_and_test_and_set.csv Comparaison
+	python3 Part1/Timer/script_python.py plot2 Part2/TestAndSet/TestAndSet2.csv Part2/TestAndTestAndSet/TestAndTestAndSet2.csv Comparaison2
 	python3 Part1/Timer/script_python.py plot3 Part2/Timer/Data_inginious/ProdconsTestAndSet.csv Part2/Timer/Data_inginious/ProdconsTestAndTestAndSet.csv Part1/Timer/ResultPArt1/prodcons.csv ProducteurConsommateur
 	python3 Part1/Timer/script_python.py plot3 Part2/Timer/Data_inginious/PhiloTestAndSet.csv Part2/Timer/Data_inginious/PhiloTestAndTestAndSet.csv  Part1/Timer/ResultPArt1/philosophes.csv Philosophes
-	python3 Part1/Timer/script_python.py plot3 Part2/Timer/Data_inginious/LececrivTestAndSet.csv Part2/Timer/Data_inginious/LececrivTestAndTestAndSet.csv Part1/Timer/ResultPArt1/lececriv.csv LecteurEcrivain
+	python3 Part1/Timer/script_python.py plot3 Part2/Timer/Data_inginious/PhiloTestAndSet2.csv Part2/Timer/Data_inginious/PhiloTestAndTestAndSet2.csv  Part1/Timer/ResultPArt1/philosophes.csv Philosophes2
+	python3 Part1/Timer/script_python.py plot3 Part2/Timer/Data_inginious/LececrivTestAndSet.csv Part2/Timer/Data_inginious/LececrivTestAndTestAndSet.csv Part1/Timer/Data1_csv/lececriv.csv LecteurEcrivain
 	mv *.png Part2/Plots/
 
 zip: #transforme le projet en format zip
