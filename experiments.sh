@@ -9,32 +9,27 @@ echo " PhiloTestAndTEstAndSet"
 
 echo " ProdConsTestAndTestAndSEt"
 
-./prodconsOurSem.sh
+#./prodconsOurSem.sh
 
 echo "lececrivTestAndTEstAndSet"
 
-./lececrivOurSem.sh
+#./lececrivOurSem.sh
 
 echo " PhiloTestAndSet"
 ./philosophesOurSemTestAndSet.sh
 
 echo " ProdConsTestAndSEt"
 
-./prodconsOurSemTestAndSet.sh
+#./prodconsOurSemTestAndSet.sh
 
 echo "lececrivTestAndSet"
 
-./lececrivOurSemTestAndSet.sh
-
-echo "TestAndSet"
-
+#./lececrivOurSemTestAndSet.sh
 cd ../TestAndSet
-
-./testandset.sh
-
-echo "TestAndTestAndSet"
+echo "testAnd Set"
+#./testandset.sh
 
 cd ../TestAndTestAndSet
+echo "testAndTestAndSet"
 
-./TestAndTestAndSet.sh
-
+#./TestAndTestAndSet.sh

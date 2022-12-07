@@ -9,7 +9,7 @@ all : all_exe2 #all_data python python_inginious zip
 
 all_exe : philosophes prodcons lececriv  #compile les 3 fonctions
 
-all_exe2 : philosophes2 philosophes3 prodcons2 prodcons3 lececriv2 lececriv3 testAndSet testAndTestAndSet
+all_exe2 : philosophes2 philosophes3 prodcons2 prodcons3 lececriv2 lececriv3 testAndSet testAndTestAndSet 
 
 all_data: data_philo data_lececriv data_prodcons #compile tous les csv
 
@@ -93,6 +93,7 @@ testAndTestAndSet: Part2/TestAndTestAndSet/TestAndTestAndSet.c  # compile philos
 
 %.o: %.c                  # if for example you want to compute example.c this will create an object file called example.o in the same directory as example.c. Don't forget to clean it in your "make clean"
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ -c $<
+
 
 python: 
 	python3 Part1/Timer/script_python.py continue plot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi

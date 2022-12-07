@@ -2,22 +2,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int lock(int* x){
-    asm(
-        "enterhere:"
-        "movl $1, %%eax;"
-        "xchgl %%eax, (%1);"
-
-        "testl %%eax, %%eax;"
-        "jnz enterhere;"
-
-        :"=r"(x)  /* x is output operand */
-        :"r"(x)   /* x is input operand */
-        :"%eax" /* %eax is clobbered register */
-    );
-    return *x;
-}
-
 void unlock(int* x){
     asm(
         "movl $0, %%eax;"
@@ -28,6 +12,7 @@ void unlock(int* x){
         :"%eax" /* %eax is clobbered register */
     );
 }
+
 
 int enterTestAndSet(int* x){
     int to_ret;
@@ -43,12 +28,12 @@ int enterTestAndSet(int* x){
     return to_ret;
 }
 
-void TestAndTestAndSet(int *x){
-
-    do
+int lock(int *x){
+    while(enterTestAndSet(x))
     {
         while (*x){}  
-    }while(enterTestAndSet(x));   
+    }  
+    return *x;
 }
 
 
@@ -66,7 +51,7 @@ int OurSemDestroy(struct Our_semInit * sem){
 }
 
 void OurSemPost(struct Our_semInit* sem){
-    TestAndTestAndSet(&(sem->Lock));
+    lock(&(sem->Lock));
     sem->val+=1;
     unlock(&(sem->Lock));
 
@@ -75,14 +60,12 @@ void OurSemPost(struct Our_semInit* sem){
 
 void OurSemWait(struct Our_semInit* sem){
     while (1){
+        lock(&(sem->Lock));  
         if(sem->val>0){
-            TestAndTestAndSet(&(sem->Lock));    
-            if(sem->val>0){
-                sem->val-=1;
-                unlock(&(sem->Lock));
-                break;
-            }        
+            sem->val-=1;
             unlock(&(sem->Lock));
-        }
+            break;
+        }        
+        unlock(&(sem->Lock));
     }
 }

@@ -32,6 +32,7 @@ void leave(int* x){
         :"%eax" /* %eax is clobbered register */
     );
 }
+int tot =0;
 void* Action(void* N){
     int Nit = *((int*) N);
     for(int i=0; i< Nit ;i++){
