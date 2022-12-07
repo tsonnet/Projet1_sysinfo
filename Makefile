@@ -5,7 +5,7 @@ INCLUDE_HEADERS_DIRECTORY=-Iheaders
 
 # ligne 9 :this will run the following command: gcc -Wall -Werror -g -o kmeans src/distance.o other_object_filespresent_above.o ... -lcunit -lpthread
 
-all : all_exe2 #all_data python python_inginious zip
+all : all_exe all_data python python_inginious
 
 all_exe : philosophes prodcons lececriv  #compile les 3 fonctions
 
@@ -83,26 +83,23 @@ testAndTestAndSet: Part2/TestAndTestAndSet/TestAndTestAndSet.c  # compile philos
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ -c $<
 
 python: 
-	python3 Part1/Timer/script_python.py continue plot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
-	python3 Part1/Timer/script_python.py boxplot plot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
-	python3 Part1/Timer/script_python.py continue subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
-	python3 Part1/Timer/script_python.py boxplot subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
+	python3 Part1/Timer/script_python.py subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
 	mv *.png Part1/Plots/
 
 python_inginious:
-	python3 Part1/Timer/script_python.py continue plot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
-	python3 Part1/Timer/script_python.py boxplot plot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
-	python3 Part1/Timer/script_python.py continue subplot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
-	python3 Part1/Timer/script_python.py boxplot subplot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
+	python3 Part1/Timer/script_python.py subplot Part1/Timer/ResultPArt1/philosophes.csv Part1/Timer/ResultPArt1/lececriv.csv Part1/Timer/ResultPArt1/prodcons.csv inginious
 	mv *.png Part1/Plots/
 
 python2:
-	python3 Part1/Timer/script_python.py continue plot Part2/Timer/philosophes2.csv Part2/Timer/lececriv2.csv Part2/Timer/prodcons2.csv ordi
-	python3 Part1/Timer/script_python.py boxplot plot Part2/Timer/philosophes2.csv Part2/Timer/lececriv2.csv Part2/Timer/prodcons2.csv ordi
-	python3 Part1/Timer/script_python.py continue subplot Part2/Timer/philosophes2.csv Part2/Timer/lececriv2.csv Part2/Timer/prodcons2.csv ordi
-	python3 Part1/Timer/script_python.py boxplot subplot Part2/Timer/philosophes2.csv Part2/Timer/lececriv2.csv Part2/Timer/prodcons2.csv ordi
+	python3 Part1/Timer/script_python.py subplot plot Part2/Timer/philosophes2.csv Part2/Timer/lececriv2.csv Part2/Timer/prodcons2.csv ordi
 	mv *.png Part2/Plots/
 
+python_rapport:
+	python3 Part1/Timer/script_python.py plot2 Part2/TestAndSet/test_and_set.csv Part2/TestAndTestAndSet/test_and_test_and_set.csv Comparaison
+	python3 Part1/Timer/script_python.py plot3 Part2/Timer/ALL_data/ProdconsTestAndSet.csv Part2/Timer/ALL_data/ProdconsTestAndTestAndSet.csv Part1/Timer/prodcons.csv ProducteurConsommateur
+	python3 Part1/Timer/script_python.py plot3 Part2/Timer/ALL_data/PhiloTestAndSet.csv Part2/Timer/ALL_data/PhiloTestAndTestAndSet.csv  Part1/Timer/philosophes.csv Philosophes
+	python3 Part1/Timer/script_python.py plot3 Part2/Timer/ALL_data/LececrivTestAndSet.csv Part2/Timer/ALL_data/LececrivTestAndTestAndSet.csv Part1/Timer/lececriv.csv LecteurEcrivain
+	mv *.png Part2/Plots/
 zip:
 	zip -r target2.zip Part1 Part2 Makefile README.md Experiments experiments.sh
 
@@ -115,9 +112,7 @@ clean_csv: #supprime tous les csv
 	rm -f Part2/Timer/*.csv
 clean_python:
 	rm -f Part1/Plots/*.png
-	rm -f Part1/Timer/*.png
-
-clean_python2:
+	rm -f Part1/Timer/*.pn
 	rm -f Part2/Plots/*.png
 	rm -f Part2/Timer/*.png
 

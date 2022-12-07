@@ -26,13 +26,25 @@ def Extract_data(path,nb_rep):
             sum += total_milisecond
         List_average.append(sum/nb_rep)
 
+    List_average2 = []
+
+    for i in range(int(len(Y)/nb_rep)):
+        sum = []
+        for j in range(nb_rep):
+            datetime_str = Y[i*5 + j]
+            datetime_object = datetime.strptime(datetime_str, "%M:%S.%f")
+            total_milisecond = int(datetime_object.microsecond/1000)
+            sum.append(total_milisecond)
+        var = np.std(sum)
+        List_average2.append(var)
+
 
     average = np.average(List_average)
     standard_deviation = np.std(List_average)
     
     x = X[::nb_rep]
     
-    return x,List_average
+    return x,List_average,List_average2
 
 def Extract_data_boxplot(path,nb_rep):
 

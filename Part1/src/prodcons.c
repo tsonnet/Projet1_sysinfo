@@ -155,11 +155,13 @@ int main(int argc, char* argv[]){
     }
 
     // Create n consumers
+    
     for (int i = 0; i < nb_of_consumers; i++) {
         
         pthread_create(&Consumers_threads[i], NULL, consumers, (void *) (intptr_t) i);
         //printf("Created Consumer Thread = %ld count = %d \n", Consumers_threads[i],i);
     }
+    
 
         // join all of the producer threads
     for (int i = 0; i < nb_of_producers; i++) {
