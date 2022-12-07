@@ -4,16 +4,27 @@
 cd  Part2/Timer
 
 
-echo " Philo"
-#./PhilosophesOurSem.sh
+echo " PhiloTestAndTEstAndSet"
+./philosophesOurSem.sh
 
-echo " ProdCons"
+echo " ProdConsTestAndTestAndSEt"
 
-#./ProdconsOurSem.sh
+./prodconsOurSem.sh
 
-echo " lececriv.sh"
+echo "lececrivTestAndTEstAndSet"
 
-#./LececrivOurSem.sh
+./lececrivOurSem.sh
+
+echo " PhiloTestAndSet"
+./philosophesOurSemTestAndSet.sh
+
+echo " ProdConsTestAndSEt"
+
+./prodconsOurSemTestAndSet.sh
+
+echo "lececrivTestAndSet"
+
+./lececrivOurSemTestAndSet.sh
 
 echo "TestAndSet"
 
