@@ -15,7 +15,7 @@ int lock(int* x){
         :"r"(x)   /* x is input operand */
         :"%eax" /* %eax is clobbered register */
     );
-    return x;
+    return *x;
 }
 
 void unlock(int* x){
@@ -52,13 +52,6 @@ void TestAndTestAndSet(int *x){
 }
 
 
-void TestAndTestAndSet(int *x){
-
-    do
-    {
-        while (*x){}  
-    }while(enterTestAndSet(x));   
-}
 
 struct Our_semInit* InitOurSem(int x){
     struct Our_semInit* my_sem = malloc(sizeof(struct Our_semInit));
