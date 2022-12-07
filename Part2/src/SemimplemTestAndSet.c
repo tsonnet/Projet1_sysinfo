@@ -54,7 +54,6 @@ void OurSemPost(struct Our_semInit* sem){
 void OurSemWait(struct Our_semInit* sem){
     while (1)
     {
-
         if(sem->val>0){
             lock(&(sem->Lock));    
             if(sem->val>0){

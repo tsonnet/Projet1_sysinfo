@@ -34,15 +34,13 @@ void leave(int* x){
 
 
 
-
 void TestAndTestAndSet(int *x){
-
     while(enterTestAndSet(x))
     {
         while (*x){}  
     } 
 }
-
+int tot=0;
 void* Action(void* N){
     int Nit = *((int*) N);
     for(int i=0; i< Nit ;i++){
@@ -65,6 +63,7 @@ int main(int argc, char* argv[]){
     for(int i =0; i< Nthread; i++){
         pthread_join(thread[i],NULL);
     }
+  
     free(thread);
     return 0;
 }

@@ -9,7 +9,7 @@ all : all_exe all_data python python_inginious
 
 all_exe : philosophes prodcons lececriv  #compile les 3 fonctions
 
-all_exe2 : philosophes2 prodcons2 lececriv2 testAndSet testAndTestAndSet
+all_exe2 : philosophes2 philosophes3 prodcons2 prodcons3 lececriv2 lececriv3 testAndSet testAndTestAndSet 
 
 all_data: data_philo data_lececriv data_prodcons #compile tous les csv
 
@@ -22,6 +22,11 @@ philosophes: Part1/src/philosophes.c  # compile philosophes # add your other obj
 	mv $@ Part1/src/
 
 philosophes2: Part2/src/philosophesOurSem.c Part2/src/Semimplem.c
+	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
+	mv $@ Part2/src/
+
+
+philosophes3: Part2/src/philosophesOurSem.c Part2/src/SemimplemTestAndSet.c
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
@@ -39,6 +44,10 @@ prodcons: Part1/src/prodcons.c  # compile prodcons # add your other object files
 	mv $@ Part1/src/
 
 prodcons2: Part2/src/prodconsOurSem.c Part2/src/Semimplem.c
+	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
+	mv $@ Part2/src/
+
+prodcons3: Part2/src/prodconsOurSem.c Part2/src/SemimplemTestAndSet.c
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
@@ -60,6 +69,9 @@ lececriv2: Part2/src/lececrivOurSem.c  Part2/src/Semimplem.c # compile lececriv 
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
 	mv $@ Part2/src/
 
+lececriv3: Part2/src/lececrivOurSem.c  Part2/src/SemimplemTestAndSet.c
+	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ $^ $(LIBS) 
+	mv $@ Part2/src/
 data_lececriv: #compile le csv de lececriv
 	cd Part1/Timer;\
 	./lececriv.sh > lececriv.csv;\
@@ -81,6 +93,7 @@ testAndTestAndSet: Part2/TestAndTestAndSet/TestAndTestAndSet.c  # compile philos
 
 %.o: %.c                  # if for example you want to compute example.c this will create an object file called example.o in the same directory as example.c. Don't forget to clean it in your "make clean"
 	$(CC) $(INCLUDE_HEADERS_DIRECTORY) $(CFLAGS) -o $@ -c $<
+
 
 python: 
 	python3 Part1/Timer/script_python.py subplot Part1/Timer/philosophes.csv Part1/Timer/lececriv.csv Part1/Timer/prodcons.csv ordi
@@ -106,6 +119,7 @@ zip:
 clean_exe: #supprime tous les exécutables
 	rm -f Part1/src/prodcons Part1/src/lececriv Part1/src/philosophes
 	rm -f Part2/src/prodcons2 Part2/src/lececriv2 Part2/src/philosophes2
+	rm -f Part2/src/prodcons3 Part2/src/lececriv3 Part2/src/philosophes3
 	rm -f Part2/TestAndSet/testAndSet Part2/TestAndTestAndSet/testAndTestAndSet
 clean_csv: #supprime tous les csv
 	rm -f Part1/Timer/*.csv
