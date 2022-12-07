@@ -8,7 +8,7 @@ import sys
 
 from Extract_data import Extract_data,Extract_data_boxplot
 
-def plot_continue(path1, path2, path3,case):
+def plot_continue(path1, path2, path3,title):
 
     X1, Y1, Var1 = Extract_data(path1,5)
 
@@ -50,10 +50,7 @@ def plot_continue(path1, path2, path3,case):
     	
     fig.tight_layout()
 
-    if(case == 'ordi'):
-        plt.savefig('graph_.png')
-    else:
-        plt.savefig('graph_inginious.png')
+    plt.savefig('graph_'+title+".png")
 
     plt.show(block = False)
 
@@ -92,7 +89,7 @@ def treeplot(path1,path2,path3,title):
     plt.plot(X3,Y3,'-y')
     plt.errorbar(X1, Y1, yerr = np.array(Var1,dtype='float64')*0.2, color= 'red')
     plt.errorbar(X2, Y2, yerr = np.array(Var2,dtype='float64')*0.2, color= 'green')
-    plt.errorbar(X3, Y3, yerr = np.array(Var2,dtype='float64')*0.2, color= 'yellow')
+    plt.errorbar(X3, Y3, yerr = np.array(Var3,dtype='float64')*0.2, color= 'yellow')
     plt.ylim(0, max(Y1+Y2)+10)
     plt.xlabel('Number of threads')
     plt.ylabel('Execution time [ms]')

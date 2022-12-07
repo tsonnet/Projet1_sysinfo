@@ -22,10 +22,11 @@ def Extract_data(path,nb_rep):
         for j in range(nb_rep):
             datetime_str = Y[i*5 + j]
             datetime_object = datetime.strptime(datetime_str, "%M:%S.%f")
-            total_milisecond = int(datetime_object.microsecond/1000)
-            sum += total_milisecond
+            total_millisecond = int(datetime_object.microsecond/1000)+int(datetime_object.second*1000)
+            sum += total_millisecond
         List_average.append(sum/nb_rep)
 
+    print(List_average)
     List_average2 = []
 
     for i in range(int(len(Y)/nb_rep)):
